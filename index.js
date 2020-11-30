@@ -230,12 +230,13 @@ bot.on('message', message=>{
           break;
       case 'fox':
           // Call C from JavaScript
-          var result = Module.ccall('c_add', // name of C function
-            'number', // return type
-            ['number', 'number'], // argument types
-            [10, 20]); // arguments
+          //var result = Module.ccall('c_add', // name of C function
+            //'number', // return type
+            //['number', 'number'], // argument types
+            //[10, 20]); // arguments
             // result is 30
-          console.log(result);
+          console.log('Funzione non ancora disponibile');
+          break;
   }
 })
 
