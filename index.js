@@ -37,7 +37,7 @@ const PREFIX = '!'
 /**
  * !help for this list to be sent from your bot
  */
-const help = "Ecco una lista dei comandi:\n\
+const help = "\nEcco una lista dei comandi:\n\
 "+PREFIX+"help -> fornisce la lista dei comandi\n\
 "+PREFIX+"flip -> lancia una moneta\n\
 "+PREFIX+"roll -> lancia un D30 di default \n\
@@ -45,7 +45,8 @@ const help = "Ecco una lista dei comandi:\n\
 "+PREFIX+"clear n -> cancella n messaggi dal canale corrente\n\
 "+PREFIX+"pepe -> restituisce un pepe casuale\n\
 "+PREFIX+"fox -> restituisce un biscotto della fortuna generato casualmente\n\
-"+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100";
+"+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100\n\
+:woman_surfing: :woman_surfing: :woman_surfing: ";
 
 
 
@@ -168,15 +169,15 @@ const admin = 'Gimbaro';
 
 function flip(msg){
     if(Math.round(Math.random()*2)==1 )
-        msg.reply("TESTA");
+        msg.reply("TESTA :o:");
     else
-        msg.reply("CROCE");
+        msg.reply("CROCE :x:");
 }
 
 function pepe(msg){
 
   linkPepe=pepilink[Math.round(Math.random()*NPepe)];
-  msg.reply('Dal nostro archivio di '+NPepe+' pepe abbiamo trovato questo: '+linkPepe);
+  msg.reply('Dal nostro archivio di '+NPepe+' pepe abbiamo trovato questo :frog:: '+linkPepe);
 }
 
 function roll1ton(n)
@@ -199,37 +200,37 @@ bot.on('message', message=>{
           break;
       case 'roll':
         if(!args[1]) 
-          return message.reply('Hai rollato '+roll1ton(30)+' su '+30);
+          return message.reply('Hai rollato '+roll1ton(30)+' su '+30+' :game_die:');
 
 
         if(!Number.isInteger(parseInt(args[1])))
-          return message.reply('Necessario un numero intero come secondo paramentro :)');
+          return message.reply('Necessario un numero intero come secondo paramentro :upside_down:');
         
-        return message.reply('Hai rollato '+roll1ton(args[1])+' su '+args[1]);
+        return message.reply('Hai rollato '+roll1ton(args[1])+' su '+args[1]+' :game_die:');
           break;
       case 'clear':
-          if(!args[1]) return message.reply('Necessario definire il numero di messaggi da cancellare :)')
-          if(message.author.username != admin) return message.reply('Non sei autorizzato a cancellare messaggi :)')
+          if(!args[1]) return message.reply('Necessario definire il numero di messaggi da cancellare :upside_down:')
+          if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
           message.channel.bulkDelete(args[1]);
           break;
       case 'pepe':
           pepe(message);
           break;
       case 'fuck':
-          message.reply('come ti permetti? 1v1 creativa')
+          message.reply('come ti permetti? 1v1 creativa :ice_cube:')
           break;
       case '1v1':
           risuser=roll1ton(100);
           risbot=roll1ton(100);
           if(risbot>risuser)
-            return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ');
+            return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
           if(risbot<risuser)
-            return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG');
+            return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
           if(risuser==risbot)
-            return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH?');
+            return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
           break;
       case 'buonanotte':
-          message.channel.send('notte notte <3');
+          message.channel.send('notte notte :heart:');
           break;
       case 'fox':
           execFile = require('child_process').execFile;
@@ -238,7 +239,7 @@ bot.on('message', message=>{
             console.error(e);
             throw e;
           }
-            message.reply(stdout);
+            message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
           })
           break;
   }
