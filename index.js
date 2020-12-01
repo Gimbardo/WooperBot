@@ -44,6 +44,7 @@ const help = "Ecco una lista dei comandi:\n\
 "+"e\' possibile aggiungere un argomento per definire il roll massimo \n\
 "+PREFIX+"clear n -> cancella n messaggi dal canale corrente\n\
 "+PREFIX+"pepe -> restituisce un pepe casuale\n\
+"+PREFIX+"fox -> restituisce un biscotto della fortuna generato casualmente\n\
 "+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100";
 
 
@@ -66,6 +67,8 @@ const fs = require('fs')
  * Secret token, that we read from token.txt, located in our project folder
  */
 token='';
+
+
 
 
  /**
@@ -229,13 +232,14 @@ bot.on('message', message=>{
           message.channel.send('notte notte <3');
           break;
       case 'fox':
-          // Call C from JavaScript
-          //var result = Module.ccall('c_add', // name of C function
-            //'number', // return type
-            //['number', 'number'], // argument types
-            //[10, 20]); // arguments
-            // result is 30
-          console.log('Funzione non ancora disponibile');
+          execFile = require('child_process').execFile;
+          execFile('./PaoloFox',['-ltr'],(e,stdout,stderr)=>{
+          if(e instanceof Error){
+            console.error(e);
+            throw e;
+          }
+            message.reply(stdout);
+          })
           break;
   }
 })
