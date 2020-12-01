@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { getMaxListeners } = require('process');
+const { getMaxListeners, disconnect } = require('process');
 const bot = new Discord.Client();
 
 
@@ -34,6 +34,19 @@ const idPepeFolder = '1woESiXsG4hEZo56AZf-QdVmdPtv3Xvjp';
  */
 const PREFIX = '!'
 
+const sounds = ["directedby","cagatapazz","surprise","badumtss","femaleorgasm","coccodrillo","impmarch","retard","potter","lionsleeps","whyrunning","nigerundayo","bruh", "fbi", "marcello","noot", "omaewamou", "sad", "shrek", "stonks", "xpstartup", "yeet","ph","jeff","zawarudo","niconico","c4","discall"];
+
+function soundsToString()
+{
+  stringa = sounds[0];
+  for(i=1;i<sounds.length;i++)
+  {
+    stringa=stringa+', '+sounds[i];
+  }
+  return stringa;
+}
+
+stringsounds = soundsToString();
 /**
  * !help for this list to be sent from your bot
  */
@@ -45,6 +58,8 @@ const help = "\nEcco una lista dei comandi:\n\
 "+PREFIX+"clear n -> cancella n messaggi dal canale corrente\n\
 "+PREFIX+"pepe -> restituisce un pepe casuale\n\
 "+PREFIX+"fox -> restituisce un biscotto della fortuna generato casualmente\n\
+"+PREFIX+"sb <suono>-> fa partire il suono scritto, lista dei suoni: \n\
+"+stringsounds+"\n\
 "+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100\n\
 :woman_surfing: :woman_surfing: :woman_surfing: ";
 
@@ -187,6 +202,20 @@ function roll1ton(n)
 
 
 
+async function playFile(path,msg)
+{
+
+  isReady = false;
+  channel =  msg.member.voice.channel;
+  if(channel === null){
+    return;
+  }
+  connection = await channel.join();
+  
+  connection.play(path);
+}
+
+
 bot.on('message', message=>{
     
   let args = message.content.substring(PREFIX.length).split(" ");
@@ -209,7 +238,7 @@ bot.on('message', message=>{
         return message.reply('Hai rollato '+roll1ton(args[1])+' su '+args[1]+' :game_die:');
           break;
       case 'clear':
-          if(!args[1]) return message.reply('Necessario definire il numero di messaggi da cancellare :upside_down:')
+          if(!args[1] || parseInt(args[1])>100) return message.reply('Necessario definire un numero di messaggi da cancellare <=100 :upside_down:')
           if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
           message.channel.bulkDelete(args[1]);
           break;
@@ -242,7 +271,15 @@ bot.on('message', message=>{
             message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
           })
           break;
-  }
-})
+      case 'sb':
+        if(!args[1])
+          return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
+        if(sounds.indexOf(args[1]) >= 0)
+          playFile('.\\sb\\'+args[1]+'.mp3',message);
+        else
+          return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !help per una lista dei comandi:alien:');
+        break;
+        }
+  })
 
 bot.login(token);
