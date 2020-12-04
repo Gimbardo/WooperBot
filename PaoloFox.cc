@@ -36,18 +36,6 @@ struct sfrasi
 	char frase[lungall];
 };
 
-
-
-/**
- * Genera un numero casuale a partire da t, con valore massimo n-1
- * t serve per avere risultati diversi se chiamiamo PaoloFox piu' volte lo stesso secondo
- */
-int PaoloFox(int n,int t)
-{
-	srand(time(0)+t);
-	return (rand()%n);
-}
-
 /**
  * Per prendere in Input FilePezzi, ed immagazzinarlo in un array di elementi di tipo "pezzi"
  */
@@ -105,9 +93,10 @@ void StampaBiscotto(pezzi* elenco,int indice[])
  */
 void NuovoBiscotto(pezzi* elenco,int indice[],int n)
 {
+	srand(time(NULL));
 	for(int i=0;i<numel;i++)
 	{
-		indice[i]=PaoloFox(n,i);
+		indice[i]=(rand()%n);
 	}
 }
 
