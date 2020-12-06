@@ -182,13 +182,6 @@ const admin = 'Gimbaro';
 
 
 
-function flip(msg){
-    if(Math.round(Math.random()*2)==1 )
-        msg.reply("TESTA :o:");
-    else
-        msg.reply("CROCE :x:");
-}
-
 function pepe(msg){
 
   linkPepe=pepilink[Math.round(Math.random()*NPepe)];
@@ -225,22 +218,26 @@ bot.on('message', message=>{
           message.channel.send(help)
           break;
       case 'flip':
-          flip(message)
+          if(Math.round(Math.random()*2)==1 )
+            msg.reply("TESTA :o:");
+          else
+            msg.reply("CROCE :x:");
           break;
       case 'roll':
         if(!args[1]) 
           return message.reply('Hai rollato '+roll1ton(30)+' su '+30+' :game_die:');
 
 
-        if(!Number.isInteger(parseInt(args[1])))
-          return message.reply('Necessario un numero intero come secondo paramentro :upside_down:');
+        if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
+          return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
         
-        return message.reply('Hai rollato '+roll1ton(args[1])+' su '+args[1]+' :game_die:');
+        message.reply('Hai rollato '+roll1ton(parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
           break;
       case 'clear':
-          if(!args[1] || parseInt(args[1])>100) return message.reply('Necessario definire un numero di messaggi da cancellare <=100 :upside_down:')
+          if(message.channel.type === 'dm') return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
+          if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1) return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
           if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
-          message.channel.bulkDelete(args[1]);
+          message.channel.bulkDelete(parseInt(args[1])+1);
           break;
       case 'pepe':
           pepe(message);
@@ -277,7 +274,7 @@ bot.on('message', message=>{
         if(sounds.indexOf(args[1]) >= 0)
           playFile('.\\sb\\'+args[1]+'.mp3',message);
         else
-          return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !help per una lista dei comandi:alien:');
+          return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
         break;
         }
   })
