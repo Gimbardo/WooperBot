@@ -14,6 +14,8 @@ it's possible to add an argument to change max value of roll
 
 * PREFIX pepe -> returns a random pepe
 
+* PREFIX pokemon -> returns a random pepe with tophat
+
 * PREFIX fox -> returns a fortune cookie pseudo-randomly generated
 
 * PREFIX sb <sound>-> acts like a soundboard, list of sounds in sb folder
