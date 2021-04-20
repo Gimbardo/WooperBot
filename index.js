@@ -16,12 +16,6 @@ function sleep(milliseconds) {
 }
 
 
-//FUCK YOU JAVASCRIPT
-//0 -> pepe 1-> pokemon
-let Nval = new Array();
-Nval.push(0)
-Nval.push(0)
-
 /**
  * Array where we'll store links for the !pepe command
  */
@@ -167,12 +161,11 @@ function listPepe(auth,fileId,linklist,index)
         files.map((file) => {
           //console.log('adding '+file.id);
           linklist.push('https://drive.google.com/file/d/'+file.id+'/view');
-          Nval[index]++;
         });
       } else {
         console.log('No files found.');
       }
-      console.log('added '+Nval[index]+' files');
+      console.log('added '+linklist.length+' files');
     });
 }
 
@@ -202,14 +195,14 @@ const admin = 'Gimbaro';
 
 function pepe(msg){
 
-  linkPepe=pepilink[getRandomInt(0,Nval[0]-1)];
-  msg.reply('Dal nostro archivio di '+Nval[0]+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
+  linkPepe=pepilink[getRandomInt(0,pepilink.length-1)];
+  msg.reply('Dal nostro archivio di '+pepilink.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
 }
 
 function pokemon(msg){
 
-  linkPokemon=pokemonlink[getRandomInt(0,Nval[1]-1)];
-  msg.reply('Dal nostro archivio di '+Nval[1]+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
+  linkPokemon=pokemonlink[getRandomInt(0,pokemonlink.length-1)];
+  msg.reply('Dal nostro archivio di '+pokemonlink.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
 }
 
 
