@@ -163,7 +163,6 @@ async function sortListPokemon(file_list) {
     return 0;
   });
   console.log("sorted")
-  pokemonList()
 }
 
 //Funzioni del bot
