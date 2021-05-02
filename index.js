@@ -2,25 +2,11 @@ const Discord = require('discord.js');
 const { getMaxListeners, disconnect } = require('process');
 const bot = new Discord.Client();
 
-
-/**
- * Simple sleep function to solve async problems. It can be solved in a better
- * way, but i choose this because i dont have what in Italy we call "sbatta"
- */
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
-
 /**
  * Array where we'll store links for the !pepe command
  */
-var pepilink = new Array();
-var pokemonlink = new Array();
+var pepi_files = new Array();
+var pokemon_files = new Array();
 
 /**
  * With !pepe we'll send a randomized child of this GoogleDrive Folder
@@ -57,13 +43,14 @@ const help = "\nEcco una lista dei comandi:\n\
 "+PREFIX+"clear n -> cancella n messaggi dal canale corrente\n\
 "+PREFIX+"pepe -> restituisce un pepe casuale\n\
 "+PREFIX+"pokemon -> restituisce un pokemon casuale con un cappellino: \n\
+"+"pokemon <id> -> restituisce il pokemon con # nel pokedex (1->151) inserito : \n\
+"+"pokemon <\"list\"> -> restituisce la lista dei pokemon cappellifati : \n\
 "+PREFIX+"fox -> restituisce un biscotto della fortuna generato casualmente\n\
 "+PREFIX+"sb <suono>-> fa partire il suono scritto, lista dei suoni: \n\
 "+stringsounds+"\n\
 "+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100\n\
-:woman_surfing: :woman_surfing: :woman_surfing: ";
-
-
+:woman_surfing: :woman_surfing: :woman_surfing: \n\
+codice: https://github.com/Gimbarone/WooperBot";
 
 const readline = require('readline');
 const {google} = require('googleapis');
@@ -84,24 +71,17 @@ const fs = require('fs')
  */
 token='';
 
+token = fs.readFileSync('token.txt', 'utf8');
 
-
-
- /**
-  * Sync to FIRST read the file, and THEN trying the token that we 
-  */
-  token = fs.readFileSync('token.txt', 'utf8');
-
-
-  fs.readFile('credentials.json', (err, content) => {
-    if (err) return console.log('Error loading client secret file:', err);
+fs.readFile('credentials.json', (err, content) => {
+  if (err) return console.log('Error loading client secret file:', err);
   
-    authorize(JSON.parse(content), listPepe);
-  });
+    authorize(JSON.parse(content), listFiles);
+});
 
 
 
-function authorize(credentials, callback) {
+async function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
@@ -111,11 +91,11 @@ function authorize(credentials, callback) {
     if (err) return getAccessToken(oAuth2Client, callback);
     oAuth2Client.setCredentials(JSON.parse(token));
 
-    callback(oAuth2Client,idPepeFolder, pepilink, 0)
-    callback(oAuth2Client, idPokemonWithHatFolder, pokemonlink, 1)
+    
+    callback(oAuth2Client, idPokemonWithHatFolder, pokemon_files)
+    callback(oAuth2Client,idPepeFolder, pepi_files)
   });
 }
-
 
 function getAccessToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
@@ -142,8 +122,7 @@ function getAccessToken(oAuth2Client, callback) {
   });
 }
 
-
-function listPepe(auth,fileId,linklist,index)
+async function listFiles(auth,fileId,filelist)
 {
   const drive = google.drive({version: 'v3', auth});
   drive.files.list({
@@ -159,22 +138,38 @@ function listPepe(auth,fileId,linklist,index)
       if (files.length) {
         console.log('Files:');
         files.map((file) => {
-          //console.log('adding '+file.id);
-          linklist.push('https://drive.google.com/file/d/'+file.id+'/view');
+          console.log('adding '+file.name);
+          filelist.push(file)
         });
+        if(fileId == idPokemonWithHatFolder)
+          sortListPokemon(pokemon_files)
       } else {
         console.log('No files found.');
       }
-      console.log('added '+linklist.length+' files');
+      console.log('added '+filelist.length+' files');
     });
 }
 
+async function sortListPokemon(file_list) {
+  file_list.sort((a, b)=>{
+    var nameA = a.name
+    var nameB = b.name
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+  console.log("sorted")
+  pokemonList()
+}
 
 //Funzioni del bot
 
-
 bot.on('ready',()=>{
-    console.log('Bot Online');
+  console.log('Bot Online');
 });
 
 const admin = 'Gimbaro';
@@ -186,61 +181,62 @@ const admin = 'Gimbaro';
  * lower than max if max isn't an integer).
  * Using Math.round() will give you a non-uniform distribution!
  */
- function getRandomInt(min, max) {
+function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-
 function pepe(msg){
-
-  linkPepe=pepilink[getRandomInt(0,pepilink.length-1)];
-  msg.reply('Dal nostro archivio di '+pepilink.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
+  
+  linkPepe='https://drive.google.com/file/d/'+pepi_files[getRandomInt(0,pepi_files.length-1)].id+'/view'
+  msg.reply('Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
 }
 
 function pokemon(msg){
-
-  linkPokemon=pokemonlink[getRandomInt(0,pokemonlink.length-1)];
-  msg.reply('Dal nostro archivio di '+pokemonlink.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
+  
+  linkPokemon='https://drive.google.com/file/d/'+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id+'/view';
+  msg.reply('Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
 }
 
-
+function pokemonList(){
+  var response = '';
+  pokemon_files.forEach(pokemon_file =>{
+      console.log(pokemon_file)
+      response += pokemon_file.name+'\n'}
+    );
+  return response;
+}
 
 async function playFile(path,msg)
 {
-
   isReady = false;
   channel =  msg.member.voice.channel;
   if(channel === null){
     return;
   }
   connection = await channel.join();
-  
   connection.play(path);
 }
-
 
 bot.on('message', message=>{
 
 if(message.content.charAt(0) === "!")
 {
   let args = message.content.substring(PREFIX.length).split(" ");
-
   switch(args[0]){
       case 'help':
-          message.channel.send(help)
-          break;
+        message.channel.send(help)
+        break;
       case 'flip':
-          if(getRandomInt(0,1)==1 )
-            message.reply("TESTA :o:");
-          else
-            message.reply("CROCE :x:");
-          break;
+        if(getRandomInt(0,1)==1 )
+          message.reply("TESTA :o:");
+        else
+          message.reply("CROCE :x:");
+        break;
       case 'roll':
         if(!args[1]) 
           return message.reply('Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
-
 
         if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
           return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
@@ -248,46 +244,52 @@ if(message.content.charAt(0) === "!")
         message.reply('Hai rollato '+getRandomInt(1,parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
           break;
       case 'clear':
-          if(message.channel.type === 'dm')
-            return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
-          if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1)
-            return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
-          if(!message.member.hasPermission("ADMINISTRATOR"))
-            return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
-          message.channel.bulkDelete(parseInt(args[1])+1);
-          break;
+        if(message.channel.type === 'dm')
+          return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
+        if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1)
+          return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
+        if(!message.member.hasPermission("ADMINISTRATOR"))
+          return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
+        message.channel.bulkDelete(parseInt(args[1])+1);
+        break;
       case 'pepe':
-          pepe(message);
-          break;
+        pepe(message);
+        break;
       case 'pokemon':
-          pokemon(message);
-          break;
+        if(!args[1])
+          return pokemon(message);
+        else if(args[1] === 'list')
+          message.reply(pokemonList());
+        else if(parseInt(args[1])>0 && parseInt(args[1])<152)
+          return message.reply('Il pokemon con id '+args[1]+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args[1])-1].id+'/view');
+        else
+          return message.reply('Comando non valido')
+        break;
       case 'fuck':
-          message.reply('come ti permetti? 1v1 creativa :ice_cube:')
-          break;
+        message.reply('come ti permetti? 1v1 creativa :ice_cube:')
+        break;
       case '1v1':
-          risuser=parseInt(1,100);
-          risbot=parseInt(1,100);
-          if(risbot>risuser)
-            return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
-          if(risbot<risuser)
-            return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
-          if(risuser==risbot)
-            return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
-          break;
+        const risuser=parseInt(getRandomInt(1,100));
+        const risbot=parseInt(getRandomInt(1,100));
+        if(risbot>risuser)
+          return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
+        else if(risbot<risuser)
+          return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
+        else
+          return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
       case 'buonanotte':
-          message.channel.send('notte notte :heart:');
-          break;
+        message.channel.send('notte notte :heart:');
+        break;
       case 'fox':
-          execFile = require('child_process').execFile;
-          execFile('./PaoloFox',['-ltr'],(e,stdout,stderr)=>{
+        execFile = require('child_process').execFile;
+        execFile('./PaoloFox',['-ltr'],(e,stdout,stderr)=>{
           if(e instanceof Error){
             console.error(e);
             throw e;
           }
-            message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
-          })
-          break;
+          message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
+        })
+        break;
       case 'sb':
         if(!args[1])
           return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
