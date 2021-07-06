@@ -1,8 +1,9 @@
 # WooperBot
 A discord bot that can do random stuff that i wanted it to do
 
-## comand list:
+## command list:
 
+```markdown
 * PREFIX help -> lists commands
 
 * PREFIX flip -> throws a coin
@@ -29,3 +30,4 @@ it's possible to add an argument to change max value of roll
 * PREFIX buonanotte -> goodnight bot :stars:
 
 (default prefix is "!")
+```
