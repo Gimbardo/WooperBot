@@ -93,10 +93,10 @@ const discord_credentials = '{"installed": \
 authorize(JSON.parse(discord_credentials), listFiles);
 
 const drive_token = '{ \
-      "access_token":"'+process.env.access_token+'", \
-      "refresh_token":"'+process.env.refresh_token+'", \
-      "scope":"'+process.env.scope+'", \
-      "token_type":"'+process.env.token_type+'", \
+      "access_token":'+'"'+process.env.access_token+'"'+', \
+      "refresh_token":'+'"'+process.env.refresh_token+'"'+', \
+      "scope":"https://www.googleapis.com/auth/drive", \
+      "token_type":"Bearer", \
       "expiry_date":"'+process.env.expiry_date+'" \
     }';
 
