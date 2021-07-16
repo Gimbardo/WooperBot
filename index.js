@@ -1,6 +1,9 @@
 const Discord = require('discord.js');
 const { getMaxListeners, disconnect } = require('process');
 const bot = new Discord.Client();
+const fs = require('fs') 
+const aws = require('aws-sdk');
+
 
 /**
  * Array where we'll store links for the !pepe command
@@ -64,14 +67,16 @@ const SCOPES = ['https://www.googleapis.com/auth/drive'];
 // time.
 const TOKEN_PATH = 'token.json';
 
-const fs = require('fs') 
+
 
 /**
  * Secret token, that we read from token.txt, located in our project folder
  */
 token='';
 
-token = fs.readFileSync('token.txt', 'utf8');
+//token = fs.readFileSync('token.txt', 'utf8'); LOCAL
+
+token = process.env.token
 
 fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
