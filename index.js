@@ -4,7 +4,7 @@ const bot = new Discord.Client();
 const fs = require('fs') 
 const aws = require('aws-sdk');
 
-
+const sys_extension = '.out'
 /**
  * Array where we'll store links for the !pepe command
  */
@@ -105,10 +105,11 @@ async function authorize(credentials, callback) {
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
     
-  // // Check if we have previously stored a token
-  // fs.readFile(TOKEN_PATH, (err, token) => {
-  //   if (err) return getAccessToken(oAuth2Client, callback);
-    
+    // // Check if we have previously stored a token
+    // fs.readFile(TOKEN_PATH, (err, token) => {
+    //   if (err) return getAccessToken(oAuth2Client, callback);
+    // oAuth2Client.setCredentials(JSON.parse(token));
+    console.log(drive_token);
     oAuth2Client.setCredentials(JSON.parse(drive_token));
 
     
@@ -301,7 +302,7 @@ if(message.content.charAt(0) === "!")
         break;
       case 'fox':
         execFile = require('child_process').execFile;
-        execFile('./PaoloFox.out',['-ltr'],(e,stdout,stderr)=>{
+        execFile('./PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
           if(e instanceof Error){
             console.error(e);
             throw e;
