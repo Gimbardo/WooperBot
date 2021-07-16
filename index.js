@@ -97,7 +97,7 @@ const drive_token = '{ \
       "refresh_token":'+'"'+process.env.refresh_token+'"'+', \
       "scope":"https://www.googleapis.com/auth/drive", \
       "token_type":"Bearer", \
-      "expiry_date":"'+process.env.expiry_date+'" \
+      "expiry_date":'+'"'+process.env.expiry_date+'"'+' \
     }';
 
 async function authorize(credentials, callback) {
