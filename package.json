@@ -1,7 +1,7 @@
 {
   "name": "discord-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A discord bot that can do random stuff that i wanted it to do",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +12,15 @@
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.4.1",
     "ffmpeg-static": "^4.2.7"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gimbarone/WooperBot.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Gimbarone/WooperBot/issues"
+  },
+  "homepage": "https://github.com/Gimbarone/WooperBot#readme"
 }
