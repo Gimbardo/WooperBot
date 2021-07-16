@@ -27,7 +27,7 @@ it's possible to add an argument to change max value of roll
 
 * PREFIX fuck -> insult bot
 
-* PREFIX buonanotte -> goodnight bot :stars:
+* PREFIX buonanotte -> goodnight bot
 
 (default prefix is "!")
 ```
