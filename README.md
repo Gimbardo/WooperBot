@@ -31,3 +31,5 @@ it's possible to add an argument to change max value of roll
 
 (default prefix is "!")
 ```
+  
+On Linux/Mac you need to re-compile PaoloFox.cc to use command fox
