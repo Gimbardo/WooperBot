@@ -72,16 +72,33 @@ const TOKEN_PATH = 'token.json';
 /**
  * Secret token, that we read from token.txt, located in our project folder
  */
-token='';
+var token='';
 //token = fs.readFileSync('token.txt', 'utf8'); LOCAL
 token = process.env.token
 
 
-fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-    authorize(JSON.parse(content), listFiles);
-});
+// fs.readFile('credentials.json', (err, content) => {
+//   if (err) return console.log('Error loading client secret file:', err);
+//   authorize(JSON.parse(content), listFiles);
+// });
 
+const discord_credentials = '{"installed": \
+  {"client_id":"715758748776-hc1n9kq0b5m1mqvd3201quvci8g72tjd.apps.googleusercontent.com", \
+  "project_id":"pepi-1605824592804","auth_uri":"https://accounts.google.com/o/oauth2/auth", \
+  "token_uri":"https://oauth2.googleapis.com/token", \
+  "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs", \
+  "client_secret":'+ process.env.client_secret+', \
+  "redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}'
+
+authorize(JSON.parse(discord_credentials), listFiles);
+
+const drive_token = '{ \
+      "access_token":'+process.env.access_token+', \
+      "refresh_token":'+process.env.refresh_token+', \
+      "scope":'+process.env.scope+', \
+      "token_type":'+process.env.token_type+', \
+      "expiry_date":'+process.env.expiry_date+' \
+    }';
 
 async function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
@@ -91,13 +108,7 @@ async function authorize(credentials, callback) {
   // // Check if we have previously stored a token
   // fs.readFile(TOKEN_PATH, (err, token) => {
   //   if (err) return getAccessToken(oAuth2Client, callback);
-    var drive_token = '{ \
-      access_token:'+process.env.access_token+', \
-      refresh_token:'+process.env.refresh_token+', \
-      scope:'+process.env.scope+', \
-      token_type:'+process.env.token_type+', \
-      expiry_date:'+process.env.expiry_date+' \
-    }';
+    
     oAuth2Client.setCredentials(JSON.parse(drive_token));
 
     
