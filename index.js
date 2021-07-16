@@ -73,33 +73,37 @@ const TOKEN_PATH = 'token.json';
  * Secret token, that we read from token.txt, located in our project folder
  */
 token='';
-
 //token = fs.readFileSync('token.txt', 'utf8'); LOCAL
-
 token = process.env.token
+
 
 fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
-  
     authorize(JSON.parse(content), listFiles);
 });
-
 
 
 async function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
       client_id, client_secret, redirect_uris[0]);
-
-  // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
+    
+  // // Check if we have previously stored a token
+  // fs.readFile(TOKEN_PATH, (err, token) => {
+  //   if (err) return getAccessToken(oAuth2Client, callback);
+    var drive_token = '{ \
+      access_token:'+process.env.access_token+', \
+      refresh_token:'+process.env.refresh_token+', \
+      scope:'+process.env.scope+', \
+      token_type:'+process.env.token_type+', \
+      expiry_date:'+process.env.expiry_date+' \
+    }';
+    oAuth2Client.setCredentials(JSON.parse(drive_token));
 
     
     callback(oAuth2Client, idPokemonWithHatFolder, pokemon_files)
     callback(oAuth2Client,idPepeFolder, pepi_files)
-  });
+  //});
 }
 
 function getAccessToken(oAuth2Client, callback) {
