@@ -92,14 +92,6 @@ const discord_credentials = '{"installed": \
 
 authorize(JSON.parse(discord_credentials), listFiles);
 
-const drive_token = '{ \
-      "access_token":'+'"'+process.env.access_token+'"'+', \
-      "refresh_token":'+'"'+process.env.refresh_token+'"'+', \
-      "scope":"https://www.googleapis.com/auth/drive", \
-      "token_type":"Bearer", \
-      "expiry_date":'+'"'+process.env.expiry_date+'"'+' \
-    }';
-
 async function authorize(credentials, callback) {
   const {client_secret, client_id, redirect_uris} = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
@@ -109,8 +101,14 @@ async function authorize(credentials, callback) {
     // fs.readFile(TOKEN_PATH, (err, token) => {
     //   if (err) return getAccessToken(oAuth2Client, callback);
     // oAuth2Client.setCredentials(JSON.parse(token));
-    console.log(drive_token);
-    oAuth2Client.setCredentials(JSON.parse(drive_token));
+
+    oAuth2Client.setCredentials(JSON.parse('{ \
+      "access_token":'+'"'+process.env.access_token+'"'+', \
+      "refresh_token":'+'"'+process.env.refresh_token+'"'+', \
+      "scope":"https://www.googleapis.com/auth/drive", \
+      "token_type":"Bearer", \
+      "expiry_date":'+'"'+process.env.expiry_date+'"'+' \
+    }'));
 
     
     callback(oAuth2Client, idPokemonWithHatFolder, pokemon_files)
