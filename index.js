@@ -5,6 +5,8 @@ const fs = require('fs')
 const aws = require('aws-sdk');
 const cool = require('cool-ascii-faces');
 
+const guildId = '778632338614517790'
+
 const sys_extension = '.out'
 /**
  * Array where we'll store links for the !pepe command
@@ -186,67 +188,42 @@ async function sortListPokemon(file_list) {
   //console.log("sorted")
 }
 
+const getApp = (guildId) => {
+  const app = bot.api.applications(bot.user.id)
+  if (guildId) {
+    app.guilds(guildId)
+  }
+  return app
+}
+
 //Funzioni del bot
 
-bot.on('ready',()=>{
+bot.on('ready', async ()=>{
   console.log('Bot Online');
-});
 
-const admin = 'Gimbaro';
+  const commands = await getApp(guildId).commands.get(commands)
 
-/**
- * Returns a random integer between min (inclusive) and max (inclusive).
- * The value is no lower than min (or the next integer greater than min
- * if min isn't an integer) and no greater than max (or the next integer
- * lower than max if max isn't an integer).
- * Using Math.round() will give you a non-uniform distribution!
- */
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'ping',
+      description: 'ping-pong',
+    },
+  })
 
-function pepe(msg){
-  
-  linkPepe='https://drive.google.com/file/d/'+pepi_files[getRandomInt(0,pepi_files.length-1)].id+'/view'
-  msg.reply('Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
-}
+  bot.ws.on('INTERACTION_CREATE', async (interaction) => {
+    const command = interaction.data.name.toLowerCase()
 
-function pokemon(msg){
-  
-  linkPokemon='https://drive.google.com/file/d/'+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id+'/view';
-  msg.reply('Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
-}
-
-function pokemonList(){
-  var response = '';
-  pokemon_files.forEach(pokemon_file =>{
-      //console.log(pokemon_file)
-      response += pokemon_file.name+'\n'}
-    );
-  return response;
-}
-
-async function playFile(path,msg)
-{
-  isReady = false;
-  channel =  msg.member.voice.channel;
-  if(channel === null){
-    return;
-  }
-  connection = await channel.join();
-  connection.play(path);
-}
-
-bot.on('message', message=>{
-
-if(message.content.charAt(0) === "!")
-{
-  let args = message.content.substring(PREFIX.length).split(" ");
-  switch(args[0]){
+    let args = command.substring(PREFIX.length).split(" ");
+    switch(args[0]){
       case 'help':
-        message.channel.send(help)
+        bot.api.interactions(interaction.id, interaction.token).callback.post({
+          data:{
+            type: 4,
+            data: {
+              content: help
+            }
+          }
+        })
         break;
       case 'flip':
         if(getRandomInt(0,1)==1 )
@@ -324,8 +301,63 @@ if(message.content.charAt(0) === "!")
       case 'coolface':
         return message.channel.send(cool());
         break;
-      }
+    }
+  })
+});
+
+const admin = 'Gimbaro';
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function pepe(msg){
+  
+  linkPepe='https://drive.google.com/file/d/'+pepi_files[getRandomInt(0,pepi_files.length-1)].id+'/view'
+  msg.reply('Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
+}
+
+function pokemon(msg){
+  
+  linkPokemon='https://drive.google.com/file/d/'+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id+'/view';
+  msg.reply('Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
+}
+
+function pokemonList(){
+  var response = '';
+  pokemon_files.forEach(pokemon_file =>{
+      //console.log(pokemon_file)
+      response += pokemon_file.name+'\n'}
+    );
+  return response;
+}
+
+async function playFile(path,msg)
+{
+  isReady = false;
+  channel =  msg.member.voice.channel;
+  if(channel === null){
+    return;
   }
-})
+  connection = await channel.join();
+  connection.play(path);
+}
+
+// bot.on('message', message=>{
+
+//   if(message.content.charAt(0) === "!")
+//   {
+    
+//   }
+// })
 
 bot.login(token);
