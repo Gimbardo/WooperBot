@@ -28,6 +28,8 @@ it's possible to add an argument to change max value of roll
 * PREFIX fuck -> insult bot
 
 * PREFIX buonanotte -> goodnight bot
+  
+* PREFIX coolface -> sends a cool face
 
 (default prefix is "!")
 ```
