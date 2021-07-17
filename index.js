@@ -302,7 +302,7 @@ if(message.content.charAt(0) === "!")
         break;
       case 'fox':
         execFile = require('child_process').execFile;
-        execFile('./PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
+        execFile('./bin/PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
           if(e instanceof Error){
             console.error(e);
             throw e;
