@@ -54,7 +54,7 @@ const help = "\nEcco una lista dei comandi:\n\
 "+stringsounds+"\n\
 "+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100\n\
 :woman_surfing: :woman_surfing: :woman_surfing: \n\
-"+PREFIX+"coolface -> "+cool()+"\n\
+"+PREFIX+"coolface -> returns a random funny face eheh :alien: \n\
 codice: https://github.com/Gimbarone/WooperBot";
 
 const readline = require('readline');
@@ -159,7 +159,7 @@ async function listFiles(auth,fileId,filelist)
       if (files.length) {
         console.log('Files:');
         files.map((file) => {
-          console.log('adding '+file.name);
+          //console.log('adding '+file.name);
           filelist.push(file)
         });
         if(fileId == idPokemonWithHatFolder)
@@ -183,7 +183,7 @@ async function sortListPokemon(file_list) {
     }
     return 0;
   });
-  console.log("sorted")
+  //console.log("sorted")
 }
 
 //Funzioni del bot
@@ -222,7 +222,7 @@ function pokemon(msg){
 function pokemonList(){
   var response = '';
   pokemon_files.forEach(pokemon_file =>{
-      console.log(pokemon_file)
+      //console.log(pokemon_file)
       response += pokemon_file.name+'\n'}
     );
   return response;
@@ -322,7 +322,7 @@ if(message.content.charAt(0) === "!")
         return message.channel.send("Hai rotto il cazzo Alex");
         break;
       case 'coolface':
-        return message.channel.send(cool());
+        return message.reply(cool());
         break;
       }
   }
