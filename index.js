@@ -54,6 +54,7 @@ const help = "\nEcco una lista dei comandi:\n\
 "+stringsounds+"\n\
 "+PREFIX+"1v1 -> sfidi il bot in un roll casuale da 0 a 100\n\
 :woman_surfing: :woman_surfing: :woman_surfing: \n\
+"+PREFIX+"coolface -> "+cool()+"\n\
 codice: https://github.com/Gimbarone/WooperBot";
 
 const readline = require('readline');
