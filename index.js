@@ -3,6 +3,7 @@ const { getMaxListeners, disconnect } = require('process');
 const bot = new Discord.Client();
 const fs = require('fs') 
 const aws = require('aws-sdk');
+const cool = require('cool-ascii-faces');
 
 const sys_extension = '.out'
 /**
@@ -318,6 +319,9 @@ if(message.content.charAt(0) === "!")
         break;
       case 'gambero':
         return message.channel.send("Hai rotto il cazzo Alex");
+        break;
+      case 'coolface':
+        return message.channel.send(cool());
         break;
       }
   }
