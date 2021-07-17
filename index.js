@@ -322,7 +322,7 @@ if(message.content.charAt(0) === "!")
         return message.channel.send("Hai rotto il cazzo Alex");
         break;
       case 'coolface':
-        return message.reply(cool());
+        return message.channel.send(cool());
         break;
       }
   }
