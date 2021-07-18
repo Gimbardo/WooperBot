@@ -404,9 +404,7 @@ bot.on('ready', async ()=>{
         if(sounds.indexOf(args['sound_name']) >= 0){
           console.log(interaction.member.user.id)
           console.log('\n\n\n\n')
-          console.log(typeof interaction)
-          console.log(typeof bot)
-          console.log(typeof bot.api)
+          console.log(bot.users.fetch(interaction.member.user.id))
           // console.log(bot.api.users(interaction.member.user.id).callback.get({
           // }))
           //playFile('.\\sb\\'+args[1]+'.mp3',message);
