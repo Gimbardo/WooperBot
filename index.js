@@ -349,12 +349,12 @@ bot.on('ready', async ()=>{
         
         if(!args['id'])
           return reply(interaction,pokemon());
-        else if(args === 'list')
+        else if(args['id'] === 'list')
           reply(interaction,pokemonList());
         else if(parseInt(args['id'])>0)
           return reply(interaction, 'Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args['id'])-1].id+'/view');
         else
-          return reply(interaction, 'Comando non valido')
+          return reply(interaction, 'Comando non valido');
         break;
       case 'fuck':
         reply(interaction,'come ti permetti? 1v1 creativa :ice_cube:')
