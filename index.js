@@ -401,15 +401,12 @@ bot.on('ready', async ()=>{
       case 'sb':
         if(!args['sound_name'])
           return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
-        if(sounds.indexOf(args['sound_name']) >= 0)
+        if(sounds.indexOf(args['sound_name']) >= 0){
           console.log(interaction.user.id)
-          console.log(bot.api.interactions(interaction.id, interaction.token).callback.get({
-            data:{
-              id: interaction.user.id
-            }
+          console.log(bot.api.users(user.id).callback.get({
           }))
           //playFile('.\\sb\\'+args[1]+'.mp3',message);
-          return reply(interaction, 'riproducendo il suono, beep boop :robot:')
+          return reply(interaction, 'riproducendo il suono, beep boop :robot:')}
         else
           return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
         break;
