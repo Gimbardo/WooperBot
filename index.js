@@ -211,6 +211,20 @@ const commandsList = async () => {
   })
   await getApp(guildId).commands.post({
     data: {
+      name: 'roll',
+      description: 'rolls a dice ',
+      options: [
+        {
+          name: 'max_value',
+          description: 'max value of the dice, default: 30',
+          required: false,
+          type: 4,
+        },
+      ]
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
       name: 'pepe',
       description: 'returns a random pepe from our archive (link from gdrive) ',
     },
@@ -247,14 +261,14 @@ const commandsList = async () => {
   })
   await getApp(guildId).commands.post({
     data: {
-      name: 'coolface',
-      description: '(>o.o>)',
+      name: 'gambero',
+      description: 'basta Alex',
     },
   })
   await getApp(guildId).commands.post({
     data: {
-      name: 'gambero',
-      description: 'basta Alex',
+      name: 'coolface',
+      description: '(>o.o>)',
     },
   })
 }
@@ -279,9 +293,18 @@ bot.on('ready', async ()=>{
   await commandsList()
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
-    const command = interaction.data.name.toLowerCase()
-    console.log('AAAAAAAAAA')
-    console.log(command)
+    const {name, options} = interaction.data
+    const command = name.toLowerCase()
+
+    const args = {}
+
+    if(options){
+      for(const option of options){
+        const { name, value } = option
+        args[name] = value
+      }
+    }
+
     switch(command){
       case 'help':
         reply(interaction,help)
@@ -292,15 +315,15 @@ bot.on('ready', async ()=>{
         else
           reply(interaction,"CROCE :x:");
         break;
-      // case 'roll':
-      //   if(!args[1]) 
-      //     return message.reply('Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
+      case 'roll':
+        if(!args['max_value']) 
+          return reply(interaction, 'Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
 
-      //   if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
-      //     return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
+        if(!Number.isInteger(args['max_value']) || args['max_value']<0)
+          return reply(interaction, 'Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
         
-      //   message.reply('Hai rollato '+getRandomInt(1,parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
-      //     break;
+        reply('Hai rollato '+getRandomInt(1,args['max_value'])+' su '+args['max_value']+' :game_die:');
+          break;
       // case 'clear':
       //   if(message.channel.type === 'dm')
       //     return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
