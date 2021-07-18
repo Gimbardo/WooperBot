@@ -426,7 +426,7 @@ function pokemon(){
 
 function pokemonList(){
   var response = '';
-  var i = 0;
+  var i = 1;
   pokemon_files.forEach(pokemon_file =>{
       response += ''+i+': '
       response += pokemon_file.name+'\n'
