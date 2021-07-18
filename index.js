@@ -315,6 +315,9 @@ bot.on('ready', async ()=>{
   await commandsList()
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
+
+    console.log(interaction)
+
     const {name, options} = interaction.data
     const command = name.toLowerCase()
 
