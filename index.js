@@ -269,6 +269,20 @@ const commandsList = async () => {
   })
   await getApp(guildId).commands.post({
     data: {
+      name: 'sb',
+      description: 'reproduce a sound, without arguments it returns a list of available sounds',
+      options: [
+        {
+          name: 'sound_name',
+          description: 'name of the sound',
+          required: false,
+          type: 3,
+        },
+      ]
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
       name: 'gambero',
       description: 'basta Alex',
     },
@@ -381,14 +395,15 @@ bot.on('ready', async ()=>{
           reply(interaction,'\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
         })
         break;
-      // case 'sb':
-      //   if(!args[1])
-      //     return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
-      //   if(sounds.indexOf(args[1]) >= 0)
-      //     playFile('.\\sb\\'+args[1]+'.mp3',message);
-      //   else
-      //     return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
-      //   break;
+      case 'sb':
+        if(!args['sound_name'])
+          return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
+        if(sounds.indexOf(args['sound_name']) >= 0)
+          //playFile('.\\sb\\'+args[1]+'.mp3',message);
+          return reply(interaction, 'riproducendo il suono, beep boop :robot:')
+        else
+          return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
+        break;
       case 'gambero':
         reply(interaction,"Hai rotto il cazzo Alex");
         break;
@@ -435,10 +450,8 @@ function pokemonList(){
   return response;
 }
 
-async function playFile(path,msg)
+async function playFile(path,channel)
 {
-  isReady = false;
-  channel =  msg.member.voice.channel;
   if(channel === null){
     return;
   }
