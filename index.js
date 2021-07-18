@@ -201,14 +201,16 @@ const getApp = (guildId) => {
 bot.on('ready', async ()=>{
   console.log('Bot Online');
 
-  const commands = await getApp(guildId).commands.get(commands)
-
+  const commands = await getApp(guildId).commands.get()
+  
   await getApp(guildId).commands.post({
     data: {
-      name: 'ping',
-      description: 'ping-pong',
+      name: 'help',
+      description: 'list of commands',
     },
   })
+
+  console.log(commands)
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
