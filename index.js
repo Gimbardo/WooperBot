@@ -297,7 +297,8 @@ bot.on('ready', async ()=>{
     const command = name.toLowerCase()
 
     const args = {}
-
+    console.log(args)
+    
     if(options){
       for(const option of options){
         const { name, value } = option
