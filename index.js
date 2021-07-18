@@ -212,101 +212,108 @@ bot.on('ready', async ()=>{
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
-    console.log(command)
-    let args = command.substring(PREFIX.length).split(" ");
-    console.log(args)
-    switch(args[0]){
-      case 'help':
-        bot.api.interactions(interaction.id, interaction.token).callback.post({
-          data:{
-            type: 4,
-            data: {
-              content: help
-            }
-          }
-        })
-        break;
-      case 'flip':
-        if(getRandomInt(0,1)==1 )
-          message.reply("TESTA :o:");
-        else
-          message.reply("CROCE :x:");
-        break;
-      case 'roll':
-        if(!args[1]) 
-          return message.reply('Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
 
-        if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
-          return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
-        
-        message.reply('Hai rollato '+getRandomInt(1,parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
-          break;
-      case 'clear':
-        if(message.channel.type === 'dm')
-          return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
-        if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1)
-          return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
-        if(!message.member.hasPermission("ADMINISTRATOR"))
-          return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
-        message.channel.bulkDelete(parseInt(args[1])+1);
-        break;
-      case 'pepe':
-        pepe(message);
-        break;
-      case 'pokemon':
-        if(!args[1])
-          return pokemon(message);
-        else if(args[1] === 'list')
-          message.reply(pokemonList());
-        else if(parseInt(args[1])>0 && parseInt(args[1])<152)
-          return message.reply('Il pokemon con id '+args[1]+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args[1])-1].id+'/view');
-        else
-          return message.reply('Comando non valido')
-        break;
-      case 'fuck':
-        message.reply('come ti permetti? 1v1 creativa :ice_cube:')
-        break;
-      case '1v1':
-        const risuser=parseInt(getRandomInt(1,100));
-        const risbot=parseInt(getRandomInt(1,100));
-        if(risbot>risuser)
-          return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
-        else if(risbot<risuser)
-          return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
-        else
-          return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
-      case 'buonanotte':
-        message.channel.send('notte notte :heart:');
-        break;
-      case 'fox':
-        execFile = require('child_process').execFile;
-        execFile('./bin/PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
-          if(e instanceof Error){
-            console.error(e);
-            throw e;
+    if(command === 'help'){
+      bot.api.interactions(interaction.id, interaction.token).callback.post({
+        data:{
+          type: 4,
+          data: {
+            content: help
           }
-          message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
-        })
-        break;
-      case 'sb':
-        if(!args[1])
-          return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
-        if(sounds.indexOf(args[1]) >= 0)
-          playFile('.\\sb\\'+args[1]+'.mp3',message);
-        else
-          return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
-        break;
-      case 'gambero':
-        return message.channel.send("Hai rotto il cazzo Alex");
-        break;
-      case 'coolface':
-        return message.channel.send(cool());
-        break;
+        }
+      })
     }
   })
+
+  //   console.log(command)
+  //   let args = command.substring(PREFIX.length).split(" ");
+  //   console.log(args)
+  //   switch(args[0]){
+  //     case 'help':
+        
+  //       break;
+  //     case 'flip':
+  //       if(getRandomInt(0,1)==1 )
+  //         message.reply("TESTA :o:");
+  //       else
+  //         message.reply("CROCE :x:");
+  //       break;
+  //     case 'roll':
+  //       if(!args[1]) 
+  //         return message.reply('Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
+
+  //       if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
+  //         return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
+        
+  //       message.reply('Hai rollato '+getRandomInt(1,parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
+  //         break;
+  //     case 'clear':
+  //       if(message.channel.type === 'dm')
+  //         return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
+  //       if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1)
+  //         return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
+  //       if(!message.member.hasPermission("ADMINISTRATOR"))
+  //         return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
+  //       message.channel.bulkDelete(parseInt(args[1])+1);
+  //       break;
+  //     case 'pepe':
+  //       pepe(message);
+  //       break;
+  //     case 'pokemon':
+  //       if(!args[1])
+  //         return pokemon(message);
+  //       else if(args[1] === 'list')
+  //         message.reply(pokemonList());
+  //       else if(parseInt(args[1])>0 && parseInt(args[1])<152)
+  //         return message.reply('Il pokemon con id '+args[1]+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args[1])-1].id+'/view');
+  //       else
+  //         return message.reply('Comando non valido')
+  //       break;
+  //     case 'fuck':
+  //       message.reply('come ti permetti? 1v1 creativa :ice_cube:')
+  //       break;
+  //     case '1v1':
+  //       const risuser=parseInt(getRandomInt(1,100));
+  //       const risbot=parseInt(getRandomInt(1,100));
+  //       if(risbot>risuser)
+  //         return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
+  //       else if(risbot<risuser)
+  //         return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
+  //       else
+  //         return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
+  //     case 'buonanotte':
+  //       message.channel.send('notte notte :heart:');
+  //       break;
+  //     case 'fox':
+  //       execFile = require('child_process').execFile;
+  //       execFile('./bin/PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
+  //         if(e instanceof Error){
+  //           console.error(e);
+  //           throw e;
+  //         }
+  //         message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
+  //       })
+  //       break;
+  //     case 'sb':
+  //       if(!args[1])
+  //         return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
+  //       if(sounds.indexOf(args[1]) >= 0)
+  //         playFile('.\\sb\\'+args[1]+'.mp3',message);
+  //       else
+  //         return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
+  //       break;
+  //     case 'gambero':
+  //       return message.channel.send("Hai rotto il cazzo Alex");
+  //       break;
+  //     case 'coolface':
+  //       return message.channel.send(cool());
+  //       break;
+  //   }
+  // })
 });
 
-const admin = 'Gimbaro';
+// const admin = 'Gimbaro'; WHY HAVE I DONE THIS?
+const admin = '266324743110656002'
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
