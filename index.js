@@ -195,8 +195,24 @@ const getApp = (guildId) => {
   }
   return app
 }
+//Funzioni del bot
 
-const commandsList = async () => {
+const reply = (interaction, response) => {
+  bot.api.interactions(interaction.id, interaction.token).callback.post({
+    data:{
+      type: 4,
+      data: {
+        content: response
+      }
+    }
+  })
+}
+
+bot.on('ready', async ()=>{
+  console.log('Bot Online');
+
+  const commands = await getApp(guildId).commands.get()
+  
   await getApp(guildId).commands.post({
     data: {
       name: 'help',
@@ -257,26 +273,6 @@ const commandsList = async () => {
       description: 'basta Alex',
     },
   })
-}
-//Funzioni del bot
-
-const reply = (interaction, response) => {
-  bot.api.interactions(interaction.id, interaction.token).callback.post({
-    data:{
-      type: 4,
-      data: {
-        content: response
-      }
-    }
-  })
-}
-
-bot.on('ready', async ()=>{
-  console.log('Bot Online');
-
-  const commands = await getApp(guildId).commands.get()
-  
-  await commandsList()
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
