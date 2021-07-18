@@ -210,12 +210,11 @@ bot.on('ready', async ()=>{
     },
   })
 
-  console.log(commands)
-
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
-
+    console.log(command)
     let args = command.substring(PREFIX.length).split(" ");
+    console.log(args)
     switch(args[0]){
       case 'help':
         bot.api.interactions(interaction.id, interaction.token).callback.post({
