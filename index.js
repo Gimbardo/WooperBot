@@ -346,15 +346,15 @@ bot.on('ready', async ()=>{
         reply(interaction,pepe());
         break;
       case 'pokemon':
-        reply(interaction,pokemon());
+        
         if(!args['id'])
-          return pokemon(message);
+          return reply(interaction,pokemon());
         else if(args === 'list')
-          message.reply(pokemonList());
-        else if(parseInt(args['id'])>0 && parseInt(args['id'])<152)
-          return message.reply('Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args['id'])-1].id+'/view');
+          reply(interaction,pokemonList());
+        else if(parseInt(args['id'])>0)
+          return reply(interaction, 'Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args['id'])-1].id+'/view');
         else
-          return message.reply('Comando non valido')
+          return reply(interaction, 'Comando non valido')
         break;
       case 'fuck':
         reply(interaction,'come ti permetti? 1v1 creativa :ice_cube:')
@@ -426,9 +426,12 @@ function pokemon(){
 
 function pokemonList(){
   var response = '';
+  var i = 0;
   pokemon_files.forEach(pokemon_file =>{
-      response += pokemon_file.name+'\n'}
-    );
+      response += ''+i+': '
+      response += pokemon_file.name+'\n'
+      i+=1
+    });
   return response;
 }
 
