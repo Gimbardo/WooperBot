@@ -195,6 +195,69 @@ const getApp = (guildId) => {
   }
   return app
 }
+
+const commandsList = async () => {
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'help',
+      description: 'list of commands, useless since slash commands are a thing',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'flip',
+      description: 'flip a coin ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'pepe',
+      description: 'returns a random pepe from our archive (link from gdrive) ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'pokemon',
+      description: 'returns a random pokemon with a hat',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'fuck',
+      description: 'don\'t :(',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: '1v1',
+      description: 'challenge this bot in a 1v1 ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'buonanotte',
+      description: ' :sleeping: ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'fox',
+      description: 'returns a PaoloFox-generated pseudo random fortune-cookie',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'coolface',
+      description: '(>o.o>)',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'gambero',
+      description: 'basta Alex',
+    },
+  })
+}
 //Funzioni del bot
 
 const reply = (interaction, response) => {
@@ -213,71 +276,13 @@ bot.on('ready', async ()=>{
 
   const commands = await getApp(guildId).commands.get()
   
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'help',
-      description: 'list of commands, useless since slash commands are a thing',
-    },
-  })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'flip',
-  //     description: 'flip a coin :coin:',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'pepe',
-  //     description: 'returns a random pepe from our archive (link from gdrive) :green_circle: ',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'pokemon',
-  //     description: 'returns a random pokemon with a hat :tophat: ',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'fuck',
-  //     description: 'don\'t :(',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: '1v1',
-  //     description: 'challenge this bot in a 1v1 :crossed_swords: ',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'buonanotte',
-  //     description: ' :sleeping: ',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'fox',
-  //     description: 'returns a PaoloFox-generated pseudo random fortune-cookie  :cookie:',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'coolface',
-  //     description: '(>o.o>)',
-  //   },
-  // })
-  // await getApp(guildId).commands.post({
-  //   data: {
-  //     name: 'gambero',
-  //     description: 'basta Alex',
-  //   },
-  //})
+  await commandsList()
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
-
-    switch(args[0]){
+    console.log('AAAAAAAAAA')
+    console.log(command)
+    switch(command){
       case 'help':
         reply(interaction,help)
         break;
