@@ -402,9 +402,10 @@ bot.on('ready', async ()=>{
         if(!args['sound_name'])
           return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
         if(sounds.indexOf(args['sound_name']) >= 0){
-          console.log(interaction.member)
-          // console.log(bot.api.users(interaction['user']['id']).callback.get({
-          // }))
+          console.log(interaction.member.user.id)
+          console.log('\n\n\n\n')
+          console.log(bot.api.users(interaction.member.user.id).callback.get({
+          }))
           //playFile('.\\sb\\'+args[1]+'.mp3',message);
           return reply(interaction, 'riproducendo il suono, beep boop :robot:')}
         else
