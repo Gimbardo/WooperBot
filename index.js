@@ -23,7 +23,7 @@ const idPokemonWithHatFolder = '1proETQv6K1Wpg_7im79CCuSolq0383N6';
 /**
  * Prefix for our commands
  */
-const PREFIX = '!'
+const PREFIX = '/'
 
 const sounds = ["directedby","cagatapazz","surprise","badumtss","femaleorgasm","coccodrillo","impmarch","retard","potter","lionsleeps","whyrunning","nigerundayo","bruh", "fbi", "marcello","noot", "omaewamou", "sad", "shrek", "stonks", "xpstartup", "yeet","ph","jeff","zawarudo","niconico","c4","discall"];
 
@@ -161,7 +161,6 @@ async function listFiles(auth,fileId,filelist)
       if (files.length) {
         console.log('Files:');
         files.map((file) => {
-          //console.log('adding '+file.name);
           filelist.push(file)
         });
         if(fileId == idPokemonWithHatFolder)
@@ -185,8 +184,9 @@ async function sortListPokemon(file_list) {
     }
     return 0;
   });
-  //console.log("sorted")
 }
+
+//creazione slash commands
 
 const getApp = (guildId) => {
   const app = bot.api.applications(bot.user.id)
@@ -233,6 +233,14 @@ const commandsList = async () => {
     data: {
       name: 'pokemon',
       description: 'returns a random pokemon with a hat',
+      options: [
+        {
+          name: 'id',
+          description: 'id of the pokemon you want to see, list to display \'em all',
+          required: false,
+          type: 3,
+        },
+      ]
     },
   })
   await getApp(guildId).commands.post({
@@ -339,15 +347,15 @@ bot.on('ready', async ()=>{
         break;
       case 'pokemon':
         reply(interaction,pokemon());
-        // if(!args[1])
-        //   return pokemon(message);
-        // else if(args[1] === 'list')
-        //   message.reply(pokemonList());
-        // else if(parseInt(args[1])>0 && parseInt(args[1])<152)
-        //   return message.reply('Il pokemon con id '+args[1]+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args[1])-1].id+'/view');
-        // else
-        //   return message.reply('Comando non valido')
-        // break;
+        if(!args['id'])
+          return pokemon(message);
+        else if(args === 'list')
+          message.reply(pokemonList());
+        else if(parseInt(args['id'])>0 && parseInt(args['id'])<152)
+          return message.reply('Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args['id'])-1].id+'/view');
+        else
+          return message.reply('Comando non valido')
+        break;
       case 'fuck':
         reply(interaction,'come ti permetti? 1v1 creativa :ice_cube:')
         break;
@@ -389,16 +397,7 @@ bot.on('ready', async ()=>{
         break;
     }
   })
-
-  //   console.log(command)
-  //   let args = command.substring(PREFIX.length).split(" ");
-  //   console.log(args)
-  //   
-  // })
 });
-
-// const admin = 'Gimbaro'; WHY HAVE I DONE THIS?
-const admin = '266324743110656002'
 
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
@@ -428,7 +427,6 @@ function pokemon(){
 function pokemonList(){
   var response = '';
   pokemon_files.forEach(pokemon_file =>{
-      //console.log(pokemon_file)
       response += pokemon_file.name+'\n'}
     );
   return response;
@@ -444,13 +442,5 @@ async function playFile(path,msg)
   connection = await channel.join();
   connection.play(path);
 }
-
-// bot.on('message', message=>{
-
-//   if(message.content.charAt(0) === "!")
-//   {
-    
-//   }
-// })
 
 bot.login(token);
