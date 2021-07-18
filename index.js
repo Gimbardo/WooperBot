@@ -323,7 +323,7 @@ bot.on('ready', async ()=>{
         if(!Number.isInteger(args['max_value']) || args['max_value']<0)
           return reply(interaction, 'Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
         
-        reply('Hai rollato '+getRandomInt(1,args['max_value'])+' su '+args['max_value']+' :game_die:');
+        reply(interaction,'Hai rollato '+getRandomInt(1,args['max_value'])+' su '+args['max_value']+' :game_die:');
           break;
       // case 'clear':
       //   if(message.channel.type === 'dm')
