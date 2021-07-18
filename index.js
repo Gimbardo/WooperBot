@@ -297,14 +297,15 @@ bot.on('ready', async ()=>{
     const command = name.toLowerCase()
 
     const args = {}
-    console.log(args)
-    
+
     if(options){
       for(const option of options){
         const { name, value } = option
         args[name] = value
       }
     }
+    
+    console.log(args)
 
     switch(command){
       case 'help':
@@ -317,10 +318,9 @@ bot.on('ready', async ()=>{
           reply(interaction,"CROCE :x:");
         break;
       case 'roll':
-        if(!args['max_value']) 
+        if(!args[max_value]) 
           return reply(interaction, 'Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
 
-        if(!Number.isInteger(args['max_value']) || args['max_value']<0)
           return reply(interaction, 'Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
         
         reply('Hai rollato '+getRandomInt(1,args['max_value'])+' su '+args['max_value']+' :game_die:');
