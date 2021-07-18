@@ -219,60 +219,60 @@ bot.on('ready', async ()=>{
       description: 'list of commands, useless since slash commands are a thing',
     },
   })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'flip',
-      description: 'flip a coin :coin:',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'pepe',
-      description: 'returns a random pepe from our archive (link from gdrive) :green_circle: ',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'pokemon',
-      description: 'returns a random pokemon with a hat :tophat: ',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'fuck',
-      description: 'don\'t :(',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: '1v1',
-      description: 'challenge this bot in a 1v1 :crossed_swords: ',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'buonanotte',
-      description: ' :sleeping: ',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'fox',
-      description: 'returns a PaoloFox-generated pseudo random fortune-cookie  :cookie:',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'coolface',
-      description: '(>o.o>)',
-    },
-  })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'gambero',
-      description: 'basta Alex',
-    },
-  })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'flip',
+  //     description: 'flip a coin :coin:',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'pepe',
+  //     description: 'returns a random pepe from our archive (link from gdrive) :green_circle: ',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'pokemon',
+  //     description: 'returns a random pokemon with a hat :tophat: ',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'fuck',
+  //     description: 'don\'t :(',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: '1v1',
+  //     description: 'challenge this bot in a 1v1 :crossed_swords: ',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'buonanotte',
+  //     description: ' :sleeping: ',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'fox',
+  //     description: 'returns a PaoloFox-generated pseudo random fortune-cookie  :cookie:',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'coolface',
+  //     description: '(>o.o>)',
+  //   },
+  // })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'gambero',
+  //     description: 'basta Alex',
+  //   },
+  //})
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
