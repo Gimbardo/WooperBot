@@ -196,119 +196,179 @@ const getApp = (guildId) => {
   return app
 }
 
+const commandsList = async () => {
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'help',
+      description: 'list of commands, useless since slash commands are a thing',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'flip',
+      description: 'flip a coin :coin:',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'pepe',
+      description: 'returns a random pepe from our archive (link from gdrive) :green_circle: ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'pokemon',
+      description: 'returns a random pokemon with a hat :tophat: ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'fuck',
+      description: 'don\'t :(',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: '1v1',
+      description: 'challenge this bot in a 1v1 :crossed_swords: ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'buonanotte',
+      description: ' :sleeping: ',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'fox',
+      description: 'returns a PaoloFox-generated pseudo random fortune-cookie  :cookie:',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'coolface',
+      description: '(>o.o>)',
+    },
+  })
+  await getApp(guildId).commands.post({
+    data: {
+      name: 'gambero',
+      description: 'basta Alex',
+    },
+  })
+}
 //Funzioni del bot
+
+const reply = (interaction, response) => {
+  bot.api.interactions(interaction.id, interaction.token).callback.post({
+    data:{
+      type: 4,
+      data: {
+        content: response
+      }
+    }
+  })
+}
 
 bot.on('ready', async ()=>{
   console.log('Bot Online');
 
   const commands = await getApp(guildId).commands.get()
   
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'help',
-      description: 'list of commands',
-    },
-  })
+  await commandsList()
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
     const command = interaction.data.name.toLowerCase()
 
-    if(command === 'help'){
-      bot.api.interactions(interaction.id, interaction.token).callback.post({
-        data:{
-          type: 4,
-          data: {
-            content: help
+    switch(args[0]){
+      case 'help':
+        reply(interaction,help)
+        break;
+      case 'flip':
+        if(getRandomInt(0,1)===1 )
+          reply(interaction,"TESTA :o:");
+        else
+          reply(interaction,"CROCE :x:");
+        break;
+      // case 'roll':
+      //   if(!args[1]) 
+      //     return message.reply('Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
+
+      //   if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
+      //     return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
+        
+      //   message.reply('Hai rollato '+getRandomInt(1,parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
+      //     break;
+      // case 'clear':
+      //   if(message.channel.type === 'dm')
+      //     return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
+      //   if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1)
+      //     return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
+      //   if(!message.member.hasPermission("ADMINISTRATOR"))
+      //     return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
+      //   message.channel.bulkDelete(parseInt(args[1])+1);
+      //   break;
+      case 'pepe':
+        reply(interaction,pepe());
+        break;
+      case 'pokemon':
+        reply(interaction,pokemon());
+        // if(!args[1])
+        //   return pokemon(message);
+        // else if(args[1] === 'list')
+        //   message.reply(pokemonList());
+        // else if(parseInt(args[1])>0 && parseInt(args[1])<152)
+        //   return message.reply('Il pokemon con id '+args[1]+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args[1])-1].id+'/view');
+        // else
+        //   return message.reply('Comando non valido')
+        // break;
+      case 'fuck':
+        reply(interaction,'come ti permetti? 1v1 creativa :ice_cube:')
+        break;
+      case '1v1':
+        const risuser=parseInt(getRandomInt(1,100));
+        const risbot=parseInt(getRandomInt(1,100));
+        if(risbot>risuser)
+          return reply(interaction,'fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
+        else if(risbot<risuser)
+          return reply(interaction,'ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
+        else
+          return reply(interaction,'abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
+      case 'buonanotte':
+        reply(interaction,'notte notte :heart:');
+        break;
+      case 'fox':
+        execFile = require('child_process').execFile;
+        execFile('./bin/PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
+          if(e instanceof Error){
+            console.error(e);
+            throw e;
           }
-        }
-      })
+          reply(interaction,'\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
+        })
+        break;
+      // case 'sb':
+      //   if(!args[1])
+      //     return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
+      //   if(sounds.indexOf(args[1]) >= 0)
+      //     playFile('.\\sb\\'+args[1]+'.mp3',message);
+      //   else
+      //     return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
+      //   break;
+      case 'gambero':
+        reply(interaction,"Hai rotto il cazzo Alex");
+        break;
+      case 'coolface':
+        reply(interaction,cool());
+        break;
     }
   })
 
   //   console.log(command)
   //   let args = command.substring(PREFIX.length).split(" ");
   //   console.log(args)
-  //   switch(args[0]){
-  //     case 'help':
-        
-  //       break;
-  //     case 'flip':
-  //       if(getRandomInt(0,1)==1 )
-  //         message.reply("TESTA :o:");
-  //       else
-  //         message.reply("CROCE :x:");
-  //       break;
-  //     case 'roll':
-  //       if(!args[1]) 
-  //         return message.reply('Hai rollato '+getRandomInt(1,30)+' su '+30+' :game_die:');
-
-  //       if(!Number.isInteger(parseInt(args[1])) || parseInt(args[1])<0)
-  //         return message.reply('Necessario un numero intero maggiore di 0 come secondo paramentro :upside_down:');
-        
-  //       message.reply('Hai rollato '+getRandomInt(1,parseInt(args[1]))+' su '+parseInt(args[1])+' :game_die:');
-  //         break;
-  //     case 'clear':
-  //       if(message.channel.type === 'dm')
-  //         return message.reply('Non posso cancellare i messaggi in chat privata sciocchino :hot_face:')
-  //       if(!args[1] || parseInt(args[1])>99 || parseInt(args[1])<1)
-  //         return message.reply('Necessario definire un numero di messaggi da cancellare positivo e <=99 :upside_down:')
-  //       if(!message.member.hasPermission("ADMINISTRATOR"))
-  //         return message.reply('Non sei autorizzato a cancellare messaggi :upside_down:')
-  //       message.channel.bulkDelete(parseInt(args[1])+1);
-  //       break;
-  //     case 'pepe':
-  //       pepe(message);
-  //       break;
-  //     case 'pokemon':
-  //       if(!args[1])
-  //         return pokemon(message);
-  //       else if(args[1] === 'list')
-  //         message.reply(pokemonList());
-  //       else if(parseInt(args[1])>0 && parseInt(args[1])<152)
-  //         return message.reply('Il pokemon con id '+args[1]+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args[1])-1].id+'/view');
-  //       else
-  //         return message.reply('Comando non valido')
-  //       break;
-  //     case 'fuck':
-  //       message.reply('come ti permetti? 1v1 creativa :ice_cube:')
-  //       break;
-  //     case '1v1':
-  //       const risuser=parseInt(getRandomInt(1,100));
-  //       const risbot=parseInt(getRandomInt(1,100));
-  //       if(risbot>risuser)
-  //         return message.reply('fai schifo: ho fatto '+risbot+' mentre tu solo '+risuser+': EZ :wheelchair:');
-  //       else if(risbot<risuser)
-  //         return message.reply('ho fatto '+risbot+' e tu '+risuser+': GG :clown:');
-  //       else
-  //         return message.reply('abbiamo fatto entrambi '+risbot+': REMATCH? :eyes:');
-  //     case 'buonanotte':
-  //       message.channel.send('notte notte :heart:');
-  //       break;
-  //     case 'fox':
-  //       execFile = require('child_process').execFile;
-  //       execFile('./bin/PaoloFox'+sys_extension,['-ltr'],(e,stdout,stderr)=>{
-  //         if(e instanceof Error){
-  //           console.error(e);
-  //           throw e;
-  //         }
-  //         message.reply('\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
-  //       })
-  //       break;
-  //     case 'sb':
-  //       if(!args[1])
-  //         return message.reply('devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
-  //       if(sounds.indexOf(args[1]) >= 0)
-  //         playFile('.\\sb\\'+args[1]+'.mp3',message);
-  //       else
-  //         return message.reply('Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
-  //       break;
-  //     case 'gambero':
-  //       return message.channel.send("Hai rotto il cazzo Alex");
-  //       break;
-  //     case 'coolface':
-  //       return message.channel.send(cool());
-  //       break;
-  //   }
+  //   
   // })
 });
 
@@ -328,16 +388,16 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function pepe(msg){
+function pepe(){
   
   linkPepe='https://drive.google.com/file/d/'+pepi_files[getRandomInt(0,pepi_files.length-1)].id+'/view'
-  msg.reply('Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe);
+  return 'Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe ;
 }
 
-function pokemon(msg){
+function pokemon(){
   
   linkPokemon='https://drive.google.com/file/d/'+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id+'/view';
-  msg.reply('Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon);
+  return 'Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon;
 }
 
 function pokemonList(){
