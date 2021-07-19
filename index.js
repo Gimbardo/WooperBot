@@ -1,6 +1,6 @@
-const { Discord, MessageAttachment } = require('discord.js');
+const { Client, MessageAttachment } = require('discord.js');
 const { getMaxListeners, disconnect } = require('process');
-const bot = new Discord.Client();
+const bot = new Client();
 const fs = require('fs') 
 const aws = require('aws-sdk');
 const cool = require('cool-ascii-faces');
