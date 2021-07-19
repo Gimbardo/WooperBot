@@ -366,7 +366,7 @@ bot.on('ready', async ()=>{
         
         if(!args['id']){
           const msg = 'Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+pokemon();
-          return reply(interaction, new MessageAttachment(linkPokemon));
+          bot.channels.fetch(interaction.channel_id).send(new MessageAttachment(linkPokemon))
         }
         else if(args['id'] === 'list')
           reply(interaction,pokemonList());
