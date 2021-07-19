@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { Discord, MessageAttachment } = require('discord.js');
 const { getMaxListeners, disconnect } = require('process');
 const bot = new Discord.Client();
 const fs = require('fs') 
@@ -364,8 +364,10 @@ bot.on('ready', async ()=>{
         break;
       case 'pokemon':
         
-        if(!args['id'])
-          return reply(interaction,pokemon());
+        if(!args['id']){
+          const msg = 'Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+pokemon();
+          return reply(interaction, new MessageAttachment(linkPokemon));
+        }
         else if(args['id'] === 'list')
           reply(interaction,pokemonList());
         else if(parseInt(args['id'])>0)
@@ -443,9 +445,8 @@ function pepe(){
 }
 
 function pokemon(){
-  
   linkPokemon='https://drive.google.com/file/d/'+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id+'/view';
-  return 'Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+linkPokemon;
+  return linkPokemon;
 }
 
 function pokemonList(){
