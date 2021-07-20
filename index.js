@@ -267,20 +267,20 @@ const commandsList = async () => {
       description: 'returns a PaoloFox-generated pseudo random fortune-cookie',
     },
   })
-  await getApp(guildId).commands.post({
-    data: {
-      name: 'sb',
-      description: 'reproduce a sound, without arguments it returns a list of available sounds',
-      options: [
-        {
-          name: 'sound_name',
-          description: 'name of the sound',
-          required: false,
-          type: 3,
-        },
-      ]
-    },
-  })
+  // await getApp(guildId).commands.post({
+  //   data: {
+  //     name: 'sb',
+  //     description: 'reproduce a sound, without arguments it returns a list of available sounds',
+  //     options: [
+  //       {
+  //         name: 'sound_name',
+  //         description: 'name of the sound',
+  //         required: false,
+  //         type: 3,
+  //       },
+  //     ]
+  //   },
+  // })
   await getApp(guildId).commands.post({
     data: {
       name: 'gambero',
@@ -309,15 +309,13 @@ const reply = (interaction, response) => {
 
 bot.on('ready', async ()=>{
   console.log('Bot Online');
-  bot.user.setActivity("QUAAAAAAAAAAAAAAAAAAAAAAAAG", { type: "PLAYING"})
+  bot.user.setActivity("PORN", { type: "WATCHING"})
 
   const commands = await getApp(guildId).commands.get()
   
   await commandsList()
 
   bot.ws.on('INTERACTION_CREATE', async (interaction) => {
-
-    console.log(interaction)
 
     const {name, options} = interaction.data
     const command = name.toLowerCase()
@@ -398,24 +396,24 @@ bot.on('ready', async ()=>{
           reply(interaction,'\n:sparkles::sparkles::sparkles:\n'+stdout+'\n:sparkles::sparkles::sparkles:');
         })
         break;
-      case 'sb':
-        if(!args['sound_name'])
-          return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
-        if(sounds.indexOf(args['sound_name']) >= 0){
-          channel = bot.users.cache.get(interaction.channel_id);
-          console.log('\n\n\n\n')
-          console.log(channel)
-          // return channel.send('AAAAAAAAAAAAAAAAAAAAAAAAA')
-          // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
-          // console.log(fetchUser)
-          // console.log(bot.api.users(interaction.member.user.id).callback.get({
-          // }))
-          // playFile('.\\sb\\'+args[1]+'.mp3',message);
-          return reply(interaction, 'riproducendo il suono, beep boop :robot:')
-        }
-        else
-          return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
-        break;
+      // case 'sb':
+      //   if(!args['sound_name'])
+      //     return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
+      //   if(sounds.indexOf(args['sound_name']) >= 0){
+      //     channel = bot.users.cache.get(interaction.channel_id);
+      //     console.log('\n\n\n\n')
+      //     console.log(channel)
+      //     // return channel.send('AAAAAAAAAAAAAAAAAAAAAAAAA')
+      //     // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
+      //     // console.log(fetchUser)
+      //     // console.log(bot.api.users(interaction.member.user.id).callback.get({
+      //     // }))
+      //     // playFile('.\\sb\\'+args[1]+'.mp3',message);
+      //     return reply(interaction, 'riproducendo il suono, beep boop :robot:')
+      //   }
+      //   else
+      //     return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
+      //   break;
       case 'gambero':
         reply(interaction,"Hai rotto il cazzo Alex");
         break;
@@ -440,15 +438,11 @@ function getRandomInt(min, max) {
 }
 
 function pepe(){
-  
-  linkPepe='https://drive.google.com/uc?export=download&id='+pepi_files[getRandomInt(0,pepi_files.length-1)].id
-  return linkPepe
-  //'Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe ;
+  return 'https://drive.google.com/uc?export=download&id='+pepi_files[getRandomInt(0,pepi_files.length-1)].id
 }
 
 function pokemon(){
-  linkPokemon='https://drive.google.com/uc?export=download&id='+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id;
-  return linkPokemon;
+  return 'https://drive.google.com/uc?export=download&id='+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id;;
 }
 
 function pokemonList(){
@@ -462,13 +456,13 @@ function pokemonList(){
   return response;
 }
 
-async function playFile(path,channel)
-{
-  if(channel === null){
-    return;
-  }
-  connection = await channel.join();
-  connection.play(path);
-}
+// async function playFile(path,channel)
+// {
+//   if(channel === null){
+//     return;
+//   }
+//   connection = await channel.join();
+//   connection.play(path);
+// }
 
 bot.login(token);
