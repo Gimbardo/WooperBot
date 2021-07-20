@@ -410,13 +410,14 @@ bot.on('ready', async ()=>{
           channel = bot.channels.cache.get(interaction.channel_id);
           console.log('\n\n\n\n')
           console.log(channel)
-          channel.send('riproducendo il suono, beep boop :robot:')
+          return channel.send('AAAAAAAAAAAAAAAAAAAAAAAAA')
           // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
           // console.log(fetchUser)
           // console.log(bot.api.users(interaction.member.user.id).callback.get({
           // }))
           // playFile('.\\sb\\'+args[1]+'.mp3',message);
-          return reply(interaction, 'riproducendo il suono, beep boop :robot:')}
+          // return reply(interaction, 'riproducendo il suono, beep boop :robot:')
+        }
         else
           return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
         break;
