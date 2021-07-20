@@ -371,7 +371,7 @@ bot.on('ready', async ()=>{
         }
         else if(args['id'] === 'list')
           reply(interaction,pokemonList());
-        else if(parseInt(args['id'])>0)
+        else if(parseInt(args['id'])>0 && parseInt(args['id'])<=pokemon_files.length)
           return reply(interaction, 'Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args['id'])-1].id+'/view');
         else
           return reply(interaction, 'Comando non valido');
@@ -444,8 +444,9 @@ function getRandomInt(min, max) {
 
 function pepe(){
   
-  linkPepe='https://drive.google.com/file/d/'+pepi_files[getRandomInt(0,pepi_files.length-1)].id+'/view'
-  return 'Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe ;
+  linkPepe='https://drive.google.com/uc?export=download&id='+pepi_files[getRandomInt(0,pepi_files.length-1)].id
+  return linkPepe
+  //'Dal nostro archivio di '+pepi_files.length+' pepe abbiamo trovato questo :frog:\n'+linkPepe ;
 }
 
 function pokemon(){
