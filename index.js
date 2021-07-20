@@ -366,15 +366,12 @@ bot.on('ready', async ()=>{
       case 'pokemon':
         
         if(!args['id']){
-          const msg = 'Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+pokemon();
-          return reply(interaction, msg)
+          return reply(interaction, pokemon())
         }
         else if(args['id'] === 'list')
           reply(interaction,pokemonList());
         else if(parseInt(args['id'])>0 && parseInt(args['id'])<=pokemon_files.length)
-          return reply(interaction, 'Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/uc?export=download&id='+pokemon_files[parseInt(args['id'])-1].id);
-        else
-          return reply(interaction, 'Comando non valido');
+          return reply(interaction, 'https://drive.google.com/uc?export=download&id='+pokemon_files[parseInt(args['id'])-1].id);
         break;
       case 'fuck':
         reply(interaction,'come ti permetti? 1v1 creativa :ice_cube:')
