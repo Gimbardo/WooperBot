@@ -309,6 +309,7 @@ const reply = (interaction, response) => {
 
 bot.on('ready', async ()=>{
   console.log('Bot Online');
+  bot.user.setActivity("QUAAAAAAAAAAAAAAAAAAAAAAAAG", { type: "PLAYING"})
 
   const commands = await getApp(guildId).commands.get()
   
@@ -406,8 +407,10 @@ bot.on('ready', async ()=>{
         if(!args['sound_name'])
           return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
         if(sounds.indexOf(args['sound_name']) >= 0){
-          //console.log(interaction.member.user.id)
+          channel = client.channels.cache.get(interaction.channel_id);
           console.log('\n\n\n\n')
+          console.log(channel)
+          channel.send('riproducendo il suono, beep boop :robot:')
           // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
           // console.log(fetchUser)
           // console.log(bot.api.users(interaction.member.user.id).callback.get({
