@@ -6,6 +6,7 @@ const aws = require('aws-sdk');
 const cool = require('cool-ascii-faces');
 
 //const guildId = '778632338614517790' testing guild
+const guildId = false
 
 const sys_extension = '.out'
 /**
