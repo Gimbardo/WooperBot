@@ -410,7 +410,7 @@ bot.on('ready', async ()=>{
           console.log('\n\n\n\n')
           // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
           // console.log(fetchUser)
-          new Discord.WebhookClient(bot.user.id, interaction.token).send('hello world')
+          new Client.WebhookClient(bot.user.id, interaction.token).send('hello world')
           // console.log(bot.api.users(interaction.member.user.id).callback.get({
           // }))
           //playFile('.\\sb\\'+args[1]+'.mp3',message);
