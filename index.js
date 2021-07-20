@@ -372,7 +372,7 @@ bot.on('ready', async ()=>{
         else if(args['id'] === 'list')
           reply(interaction,pokemonList());
         else if(parseInt(args['id'])>0 && parseInt(args['id'])<=pokemon_files.length)
-          return reply(interaction, 'Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/file/d/'+pokemon_files[parseInt(args['id'])-1].id+'/view');
+          return reply(interaction, 'Il pokemon con id '+args['id']+' e\' :rat: :zap: :tophat:\n https://drive.google.com/uc?export=download&id='+pokemon_files[parseInt(args['id'])-1].id);
         else
           return reply(interaction, 'Comando non valido');
         break;
@@ -450,7 +450,7 @@ function pepe(){
 }
 
 function pokemon(){
-  linkPokemon='https://drive.google.com/file/d/'+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id+'/view';
+  linkPokemon='https://drive.google.com/uc?export=download&id='+pokemon_files[getRandomInt(0,pokemon_files.length-1)].id;
   return linkPokemon;
 }
 
