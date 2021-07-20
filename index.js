@@ -5,7 +5,7 @@ const fs = require('fs')
 const aws = require('aws-sdk');
 const cool = require('cool-ascii-faces');
 
-const guildId = '778632338614517790'
+//const guildId = '778632338614517790' testing guild
 
 const sys_extension = '.out'
 /**
@@ -61,7 +61,6 @@ codice: https://github.com/Gimbarone/WooperBot";
 
 const readline = require('readline');
 const {google} = require('googleapis');
-const { waitForDebugger } = require('inspector');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -70,7 +69,6 @@ const SCOPES = ['https://www.googleapis.com/auth/drive'];
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = 'token.json';
-
 
 
 /**
