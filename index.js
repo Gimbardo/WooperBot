@@ -367,9 +367,7 @@ bot.on('ready', async ()=>{
         
         if(!args['id']){
           const msg = 'Dal nostro archivio di '+pokemon_files.length+' pokemon abbiamo trovato questo :rat: :zap: :tophat:\n'+pokemon();
-          const channel = await bot.channels.fetch(interaction.channel_id)
-          console.log(channel)
-          channel.send(new MessageAttachment(linkPokemon))
+          return reply(interaction, msg)
         }
         else if(args['id'] === 'list')
           reply(interaction,pokemonList());
@@ -407,16 +405,16 @@ bot.on('ready', async ()=>{
         if(!args['sound_name'])
           return reply(interaction, 'devi inserire il nome del suono da riprodurre,\nEccoti la lista :monkey::\n'+stringsounds);
         if(sounds.indexOf(args['sound_name']) >= 0){
-          channel = bot.channels.cache.get(interaction.channel_id);
+          channel = bot.users.cache.get(interaction.channel_id);
           console.log('\n\n\n\n')
           console.log(channel)
-          return channel.send('AAAAAAAAAAAAAAAAAAAAAAAAA')
+          // return channel.send('AAAAAAAAAAAAAAAAAAAAAAAAA')
           // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
           // console.log(fetchUser)
           // console.log(bot.api.users(interaction.member.user.id).callback.get({
           // }))
           // playFile('.\\sb\\'+args[1]+'.mp3',message);
-          // return reply(interaction, 'riproducendo il suono, beep boop :robot:')
+          return reply(interaction, 'riproducendo il suono, beep boop :robot:')
         }
         else
           return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
