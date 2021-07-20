@@ -410,10 +410,9 @@ bot.on('ready', async ()=>{
           console.log('\n\n\n\n')
           // const fetchUser = async id => bot.users.fetch(interaction.member.user.id)
           // console.log(fetchUser)
-          new Client.WebhookClient(bot.user.id, interaction.token).send('hello world')
           // console.log(bot.api.users(interaction.member.user.id).callback.get({
           // }))
-          //playFile('.\\sb\\'+args[1]+'.mp3',message);
+          // playFile('.\\sb\\'+args[1]+'.mp3',message);
           return reply(interaction, 'riproducendo il suono, beep boop :robot:')}
         else
           return reply(interaction, 'Il suono che hai cercato non esiste :innocent:\nDigita !sb per una lista dei suoni:alien:');
