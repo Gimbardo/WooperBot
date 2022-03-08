@@ -1,4 +1,5 @@
 # WooperBot
+## refactoring -> [WooperBot2](https://github.com/Gimbardo/WooperBot2)
 A discord bot that can do random stuff that i wanted it to do
 
 ## command list:
